@@ -80,7 +80,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
                   <span className="flex-1 text-sm">{product.product_name}</span>
                   {winner ? (
                     <Badge variant="success">
-                      <Trophy className="w-3 h-3 mr-1" />
+                      <Trophy className="w-3 h-3" />
                       {winner.profiles.user_name}
                     </Badge>
                   ) : (
@@ -117,7 +117,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
                 <Gift className="w-4 h-4 text-primary" />
                 <span className="text-sm flex-1">{result.product_name}</span>
                 <Badge variant="success">
-                  <Trophy className="w-3 h-3 mr-1" />
+                  <Trophy className="w-3 h-3" />
                   {result.winner_name}
                 </Badge>
               </div>

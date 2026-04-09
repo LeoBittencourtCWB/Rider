@@ -57,7 +57,7 @@ function EventCard({ event }: { event: EventWithCount }) {
               </p>
             </div>
             <Badge>
-              <Users className="w-3 h-3 mr-1" />
+              <Users className="w-3 h-3" />
               {event.participant_count}
             </Badge>
           </div>
