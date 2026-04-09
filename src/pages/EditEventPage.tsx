@@ -21,7 +21,7 @@ const schema = z.object({
   event_address: z.string().min(5, 'Endereço é obrigatório'),
   event_date: z.string().min(1, 'Data é obrigatória'),
   event_start_time: z.string().min(1, 'Horário de início é obrigatório'),
-  event_end_time: z.string().min(1, 'Horário de término é obrigatório'),
+  event_end_time: z.string().optional(),
   event_cost: z.string(),
 })
 
@@ -42,7 +42,7 @@ function EditForm({ event }: { event: EventWithCount }) {
       event_address: event.event_address,
       event_date: event.event_date,
       event_start_time: event.event_start_time.slice(0, 5),
-      event_end_time: event.event_end_time.slice(0, 5),
+      event_end_time: event.event_end_time?.slice(0, 5) || '',
       event_cost: String(event.event_cost),
     },
   })
@@ -69,7 +69,7 @@ function EditForm({ event }: { event: EventWithCount }) {
         event_address: data.event_address,
         event_date: data.event_date,
         event_start_time: data.event_start_time,
-        event_end_time: data.event_end_time,
+        event_end_time: data.event_end_time || null,
         event_cost: parseFloat(data.event_cost) || 0,
         event_picture: pictureUrl,
       },
@@ -96,12 +96,15 @@ function EditForm({ event }: { event: EventWithCount }) {
       </div>
 
       <Input id="event_name" label="Nome do Evento *" error={errors.event_name?.message} {...register('event_name')} />
-      <Textarea id="event_description" label="Descrição" rows={3} {...register('event_description')} />
+      <div>
+        <Textarea id="event_description" label="Descrição" rows={4} {...register('event_description')} />
+        <p className="text-[10px] text-text-muted mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
+      </div>
       <Input id="event_address" label="Endereço *" error={errors.event_address?.message} {...register('event_address')} />
-      <Input id="event_date" label="Data *" type="date" error={errors.event_date?.message} {...register('event_date')} />
+      <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
       <div className="grid grid-cols-2 gap-3">
-        <Input id="event_start_time" label="Início *" type="time" error={errors.event_start_time?.message} {...register('event_start_time')} />
-        <Input id="event_end_time" label="Término *" type="time" error={errors.event_end_time?.message} {...register('event_end_time')} />
+        <Input id="event_start_time" label="Horário de Início *" type="time" error={errors.event_start_time?.message} {...register('event_start_time')} />
+        <Input id="event_end_time" label="Horário de Término" type="time" {...register('event_end_time')} />
       </div>
       <Input id="event_cost" label="Valor (R$)" type="number" step="0.01" min="0" {...register('event_cost')} />
 

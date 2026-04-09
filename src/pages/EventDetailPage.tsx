@@ -1,5 +1,7 @@
-import { useParams } from 'react-router-dom'
-import { useEventDetail } from '@/hooks/useEvents'
+import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEventDetail, useDeleteEvent } from '@/hooks/useEvents'
+import { useAuthStore } from '@/stores/authStore'
 import { useEventRegistration, useEventParticipants } from '@/hooks/useRegistrations'
 import { TopBar } from '@/components/layout/TopBar'
 import { Button } from '@/components/ui/button'
@@ -8,7 +10,7 @@ import { PageSpinner } from '@/components/ui/spinner'
 import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency, getWhatsAppShareUrl, getGoogleMapsUrl, getWazeUrl } from '@/lib/utils'
 import {
   CalendarDays, Clock, MapPin, DollarSign, Users,
-  Share2, Navigation, UserPlus, Check, Map
+  Share2, Navigation, UserPlus, Check, Map, X, Trash2
 } from 'lucide-react'
 
 export default function EventDetailPage() {
@@ -16,6 +18,10 @@ export default function EventDetailPage() {
   const { data: event, isLoading } = useEventDetail(id!)
   const { isRegistered, join, leave } = useEventRegistration(id!)
   const { data: participants } = useEventParticipants(id!)
+  const deleteEvent = useDeleteEvent()
+  const navigate = useNavigate()
+  const { session } = useAuthStore()
+  const [showFullImage, setShowFullImage] = useState(false)
 
   if (isLoading || !event) return <PageSpinner />
 
@@ -34,14 +40,35 @@ export default function EventDetailPage() {
       <TopBar title={event.event_name} showBack />
 
       {event.event_picture && (
-        <div className="relative">
-          <img
-            src={event.event_picture}
-            alt={event.event_name}
-            className="w-full h-52 object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-        </div>
+        <>
+          <div className="relative cursor-pointer" onClick={() => setShowFullImage(true)}>
+            <img
+              src={event.event_picture}
+              alt={event.event_name}
+              className="w-full h-52 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+          </div>
+
+          {showFullImage && (
+            <div
+              className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+              onClick={() => setShowFullImage(false)}
+            >
+              <button
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                onClick={() => setShowFullImage(false)}
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <img
+                src={event.event_picture}
+                alt={event.event_name}
+                className="max-w-full max-h-full object-contain p-4"
+              />
+            </div>
+          )}
+        </>
       )}
 
       <div className="px-4 py-5 space-y-5">
@@ -54,9 +81,15 @@ export default function EventDetailPage() {
         </div>
 
         {event.event_description && (
-          <p className="text-text-secondary text-sm leading-relaxed">
-            {event.event_description}
-          </p>
+          <div
+            className="text-text-secondary text-sm leading-relaxed whitespace-pre-line"
+            dangerouslySetInnerHTML={{
+              __html: event.event_description
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/\*\*(.+?)\*\*/g, '<strong class="text-text-primary font-semibold">$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            }}
+          />
         )}
 
         {/* Informações */}
@@ -73,7 +106,7 @@ export default function EventDetailPage() {
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <Clock className="w-4 h-4 text-primary" />
             </div>
-            <p className="text-sm">{formatTime(event.event_start_time)} - {formatTime(event.event_end_time)}</p>
+            <p className="text-sm">{formatTime(event.event_start_time)}{event.event_end_time ? ` - ${formatTime(event.event_end_time)}` : ''}</p>
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
@@ -135,11 +168,11 @@ export default function EventDetailPage() {
         </div>
 
         {/* Participantes */}
-        {participants && participants.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-text-secondary mb-3">
-              Participantes ({participants.length})
-            </h3>
+        <div>
+          <h3 className="text-sm font-semibold text-text-secondary mb-3">
+            Participantes ({participants?.length || 0})
+          </h3>
+          {participants && participants.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {participants.map((p) => (
                 <div key={p.registration_id} className="flex items-center gap-2 bg-surface rounded-full border border-border pl-1 pr-3 py-1">
@@ -148,7 +181,25 @@ export default function EventDetailPage() {
                 </div>
               ))}
             </div>
-          </div>
+          ) : (
+            <p className="text-sm text-text-muted">Nenhum participante inscrito ainda.</p>
+          )}
+        </div>
+
+        {/* Deletar evento (apenas dono) */}
+        {session?.user?.id === event.created_by && (
+          <Button
+            variant="danger"
+            className="w-full"
+            onClick={() => {
+              if (confirm('Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.')) {
+                deleteEvent.mutate(id!, { onSuccess: () => navigate('/') })
+              }
+            }}
+            disabled={deleteEvent.isPending}
+          >
+            <Trash2 className="w-4 h-4" /> Excluir Evento
+          </Button>
         )}
       </div>
     </>

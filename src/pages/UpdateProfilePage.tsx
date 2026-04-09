@@ -60,7 +60,7 @@ export default function UpdateProfilePage() {
     <>
       <TopBar title="Meu Perfil" />
 
-      <div className="px-4 py-4 space-y-6">
+      <div className="px-5 py-5 space-y-7">
         <div className="flex flex-col items-center">
           <div className="relative">
             <Avatar src={avatarPreview} name={profile?.user_name} size="lg" />
@@ -81,7 +81,7 @@ export default function UpdateProfilePage() {
           <p className="text-sm text-text-secondary mt-2">{profile?.email}</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <Input id="user_name" label="Nome *" error={errors.user_name?.message} {...register('user_name')} />
           <Input id="email" label="Email *" type="email" error={errors.email?.message} {...register('email')} />
           <Input id="whatsapp" label="WhatsApp *" type="tel" error={errors.whatsapp?.message} {...register('whatsapp')} />

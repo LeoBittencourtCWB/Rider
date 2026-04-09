@@ -43,7 +43,7 @@ export interface Database {
           event_address: string
           event_date: string
           event_start_time: string
-          event_end_time: string
+          event_end_time: string | null
           event_cost: number
           created_by: string
           created_date: string
@@ -57,7 +57,7 @@ export interface Database {
           event_address: string
           event_date: string
           event_start_time: string
-          event_end_time: string
+          event_end_time?: string | null
           event_cost?: number
           created_by: string
           created_date?: string
@@ -70,7 +70,7 @@ export interface Database {
           event_address?: string
           event_date?: string
           event_start_time?: string
-          event_end_time?: string
+          event_end_time?: string | null
           event_cost?: number
           is_active?: boolean
         }
@@ -156,7 +156,7 @@ export interface Database {
           event_address: string
           event_date: string
           event_start_time: string
-          event_end_time: string
+          event_end_time: string | null
           event_cost: number
           created_by: string
           created_date: string

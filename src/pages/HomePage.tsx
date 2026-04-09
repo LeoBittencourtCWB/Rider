@@ -112,7 +112,7 @@ export default function HomePage() {
       </TopBar>
 
       {/* Barra de busca com lupa fora do campo */}
-      <div className="px-4 py-3">
+      <div className="px-5 py-3">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
             <Search className="w-4.5 h-4.5 text-primary" />
@@ -128,7 +128,7 @@ export default function HomePage() {
       </div>
 
       {/* Lista de eventos */}
-      <div className="px-4 pb-4 space-y-4">
+      <div className="px-5 pb-5 space-y-5">
         {isLoading ? (
           <PageSpinner />
         ) : !events?.length ? (

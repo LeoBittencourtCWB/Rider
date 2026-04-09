@@ -36,7 +36,7 @@ export function isEventPast(dateStr: string, endTimeStr: string): boolean {
 
 export function getWhatsAppShareUrl(eventName: string, date: string, time: string, address: string, cost: number): string {
   const costStr = cost === 0 ? 'Gratuito' : `R$ ${cost.toFixed(2)}`
-  const msg = `🏍️ Venha para o ${eventName}!\n📅 ${formatEventDate(date)} (${formatDayOfWeek(date)}) às ${formatTime(time)}\n📍 ${address}\n💰 ${costStr}\nConfirme presença no Rider!`
+  const msg = `🏍️ Venha para o ${eventName}!\n📅 ${formatEventDate(date)} (${formatDayOfWeek(date)}) às ${formatTime(time)}\n📍 ${address}\n💰 ${costStr}\n\nConfirme presença no Rider!\n👉 https://rider-virid.vercel.app`
   return `https://wa.me/?text=${encodeURIComponent(msg)}`
 }
 

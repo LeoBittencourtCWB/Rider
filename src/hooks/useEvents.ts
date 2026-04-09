@@ -58,8 +58,7 @@ export function useMyEvents() {
         .select('*')
         .eq('created_by', session.user.id)
         .eq('is_active', true as never)
-        .gte('event_date', new Date().toISOString().split('T')[0])
-        .order('event_date', { ascending: true })
+        .order('event_date', { ascending: false })
       if (error) throw error
       return (data ?? []) as unknown as EventWithCount[]
     },
@@ -116,6 +115,24 @@ export function useUpdateEvent() {
       queryClient.invalidateQueries({ queryKey: ['event', eventId] })
       queryClient.invalidateQueries({ queryKey: ['my-events'] })
       toast.success('Evento atualizado!')
+    },
+    onError: (err: Error) => toast.error(err.message),
+  })
+}
+
+export function useDeleteEvent() {
+  return useMutation({
+    mutationFn: async (eventId: string) => {
+      const { error } = await supabase
+        .from('events')
+        .update({ is_active: false })
+        .eq('event_id', eventId)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['events'] })
+      queryClient.invalidateQueries({ queryKey: ['my-events'] })
+      toast.success('Evento excluído com sucesso!')
     },
     onError: (err: Error) => toast.error(err.message),
   })

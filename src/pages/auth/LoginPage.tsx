@@ -80,7 +80,7 @@ export default function LoginPage() {
             <Bike className="w-10 h-10 text-primary drop-shadow-[0_0_8px_rgba(255,107,0,0.4)]" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Evento<span className="text-primary">Moto</span>
+            <span className="text-primary">Rider</span>
           </h1>
           <p className="text-text-muted text-sm">
             Gerencie e participe de eventos de motociclistas

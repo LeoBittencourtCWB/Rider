@@ -73,19 +73,19 @@ export function BottomNav() {
                 key={item.path}
                 onClick={() => handleNav(item.path)}
                 className={cn(
-                  'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
+                  'w-full flex items-center gap-3 px-3 py-3.5 rounded-xl text-base font-medium transition-all',
                   location.pathname.startsWith(item.path)
                     ? 'bg-primary/15 text-primary'
                     : 'text-text-secondary hover:bg-surface-light hover:text-text-primary'
                 )}
               >
                 <div className={cn(
-                  'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
+                  'w-9 h-9 rounded-lg flex items-center justify-center shrink-0',
                   location.pathname.startsWith(item.path)
                     ? 'bg-primary/20'
                     : 'bg-surface-light'
                 )}>
-                  <item.icon className="w-4 h-4" />
+                  <item.icon className="w-4.5 h-4.5" />
                 </div>
                 {item.label}
               </button>
