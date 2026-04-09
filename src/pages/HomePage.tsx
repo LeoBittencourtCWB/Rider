@@ -35,7 +35,7 @@ function EventCard({ event }: { event: EventWithCount }) {
     >
       <div className="flex">
         {/* Miniatura da foto */}
-        <div className="w-24 shrink-0">
+        <div className="w-24 h-28 shrink-0">
           {event.event_picture ? (
             <img src={event.event_picture} alt={event.event_name} className="w-full h-full object-cover" />
           ) : (
