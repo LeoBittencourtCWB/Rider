@@ -71,6 +71,30 @@ export default function EventDetailPage() {
         </>
       )}
 
+      {/* Ações */}
+      <div className="px-4 pt-3 pb-0">
+        <div className="grid grid-cols-3 gap-2">
+          <Button variant="outline" onClick={handleShare}>
+            <Share2 className="w-4 h-4" />
+            <span className="text-xs">WhatsApp</span>
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => window.open(getGoogleMapsUrl(event.event_address), '_blank')}
+          >
+            <Map className="w-4 h-4" />
+            <span className="text-xs">Google Maps</span>
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => window.open(getWazeUrl(event.event_address), '_blank')}
+          >
+            <Navigation className="w-4 h-4" />
+            <span className="text-xs">Waze</span>
+          </Button>
+        </div>
+      </div>
+
       <div className="px-4 py-5 space-y-5">
         {/* Cabeçalho */}
         <div>
@@ -144,28 +168,6 @@ export default function EventDetailPage() {
             <><UserPlus className="w-5 h-5" /> Participar</>
           )}
         </Button>
-
-        {/* Ações */}
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="outline" onClick={handleShare}>
-            <Share2 className="w-4 h-4" />
-            <span className="text-xs">WhatsApp</span>
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => window.open(getGoogleMapsUrl(event.event_address), '_blank')}
-          >
-            <Map className="w-4 h-4" />
-            <span className="text-xs">Maps</span>
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => window.open(getWazeUrl(event.event_address), '_blank')}
-          >
-            <Navigation className="w-4 h-4" />
-            <span className="text-xs">Waze</span>
-          </Button>
-        </div>
 
         {/* Participantes */}
         <div>
