@@ -156,16 +156,16 @@ export default function EventDetailPage() {
 
         {/* Botão Participar */}
         <Button
-          className="w-full"
+          className="w-full py-5 text-lg"
           size="lg"
           variant={isRegistered ? 'secondary' : 'primary'}
           onClick={() => isRegistered ? leave.mutate() : join.mutate()}
           disabled={join.isPending || leave.isPending}
         >
           {isRegistered ? (
-            <><Check className="w-5 h-5" /> Inscrito</>
+            <><Check className="w-6 h-6" /> Inscrito</>
           ) : (
-            <><UserPlus className="w-5 h-5" /> Participar</>
+            <><UserPlus className="w-6 h-6" /> Participar</>
           )}
         </Button>
 

@@ -64,9 +64,9 @@ function EventCard({ event }: { event: EventWithCount }) {
 
           {/* Linha 2: Data + Hora + Valor */}
           <div className="flex items-center gap-3 text-xs">
-            <div className="flex items-center gap-1 text-text-secondary">
-              <CalendarDays className="w-3 h-3 text-primary" />
-              <span>{formatEventDate(event.event_date)}</span>
+            <div className="flex items-center gap-1">
+              <CalendarDays className="w-3.5 h-3.5 text-primary" />
+              <span className="text-sm font-bold text-text-primary">{formatEventDate(event.event_date)}</span>
             </div>
             <div className="flex items-center gap-1 text-text-secondary">
               <Clock className="w-3 h-3 text-primary" />

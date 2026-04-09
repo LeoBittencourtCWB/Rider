@@ -81,7 +81,7 @@ export default function UpdateProfilePage() {
           <p className="text-sm text-text-secondary mt-2">{profile?.email}</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
           <Input id="user_name" label="Nome *" error={errors.user_name?.message} {...register('user_name')} />
           <Input id="email" label="Email *" type="email" error={errors.email?.message} {...register('email')} />
           <Input id="whatsapp" label="WhatsApp *" type="tel" error={errors.whatsapp?.message} {...register('whatsapp')} />

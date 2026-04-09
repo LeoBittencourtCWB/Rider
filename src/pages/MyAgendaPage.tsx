@@ -55,9 +55,9 @@ export default function MyAgendaPage() {
 
                   <div className="flex-1 min-w-0 p-3 space-y-1.5">
                     <h3 className="font-semibold text-text-primary text-sm">{reg.events.event_name}</h3>
-                    <div className="flex items-center gap-2 text-xs">
-                      <CalendarDays className="w-3 h-3 text-primary shrink-0" />
-                      <span className="text-text-primary font-medium">
+                    <div className="flex items-center gap-2">
+                      <CalendarDays className="w-3.5 h-3.5 text-primary shrink-0" />
+                      <span className="text-sm font-bold text-text-primary">
                         {formatEventDate(reg.events.event_date)} ({formatDayOfWeek(reg.events.event_date)}) - {formatTime(reg.events.event_start_time)}
                       </span>
                     </div>
