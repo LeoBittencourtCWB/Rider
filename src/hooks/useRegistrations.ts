@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 export interface AgendaEvent {
   event_id: string
   event_name: string
+  event_picture: string | null
   event_date: string
   event_start_time: string
   event_end_time: string
@@ -36,6 +37,7 @@ export function useMyAgenda() {
           events:event_id (
             event_id,
             event_name,
+            event_picture,
             event_date,
             event_start_time,
             event_end_time,

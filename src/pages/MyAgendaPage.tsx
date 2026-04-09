@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { PageSpinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
 import { formatEventDate, formatDayOfWeek, formatTime } from '@/lib/utils'
-import { CalendarDays, MapPin } from 'lucide-react'
+import { CalendarDays, MapPin, ImageOff } from 'lucide-react'
 
 export default function MyAgendaPage() {
   const navigate = useNavigate()
@@ -38,20 +38,33 @@ export default function MyAgendaPage() {
             <div key={reg.registration_id}>
               {index > 0 && <div className="border-t border-border/50 my-4" />}
               <Card
-                className="cursor-pointer active:scale-[0.98] transition-transform"
+                className="cursor-pointer active:scale-[0.98] transition-transform overflow-hidden !p-0"
                 onClick={() => navigate(`/events/${reg.events.event_id}`)}
               >
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-sm">
-                    <CalendarDays className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-text-primary font-medium">
-                      {formatEventDate(reg.events.event_date)} ({formatDayOfWeek(reg.events.event_date)}) - {formatTime(reg.events.event_start_time)}
-                    </span>
+                <div className="flex">
+                  {/* Miniatura da foto */}
+                  <div className="w-20 shrink-0">
+                    {reg.events.event_picture ? (
+                      <img src={reg.events.event_picture} alt={reg.events.event_name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-surface-light flex items-center justify-center min-h-[5rem]">
+                        <ImageOff className="w-5 h-5 text-text-muted/40" />
+                      </div>
+                    )}
                   </div>
-                  <h3 className="font-semibold text-text-primary">{reg.events.event_name}</h3>
-                  <div className="flex items-center gap-2 text-sm text-text-secondary">
-                    <MapPin className="w-4 h-4 shrink-0 text-text-muted" />
-                    <span className="truncate">{reg.events.event_address}</span>
+
+                  <div className="flex-1 min-w-0 p-3 space-y-1.5">
+                    <h3 className="font-semibold text-text-primary text-sm">{reg.events.event_name}</h3>
+                    <div className="flex items-center gap-2 text-xs">
+                      <CalendarDays className="w-3 h-3 text-primary shrink-0" />
+                      <span className="text-text-primary font-medium">
+                        {formatEventDate(reg.events.event_date)} ({formatDayOfWeek(reg.events.event_date)}) - {formatTime(reg.events.event_start_time)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-text-secondary">
+                      <MapPin className="w-3 h-3 shrink-0 text-text-muted" />
+                      <span className="truncate">{reg.events.event_address}</span>
+                    </div>
                   </div>
                 </div>
               </Card>

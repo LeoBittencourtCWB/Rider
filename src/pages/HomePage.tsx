@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PageSpinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
-import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency } from '@/lib/utils'
-import { Search, MapPin, Users, CalendarDays, UserPlus, Check, Clock, LogOut } from 'lucide-react'
+import { formatEventDate, formatTime, formatCurrency } from '@/lib/utils'
+import { Search, MapPin, Users, CalendarDays, UserPlus, Check, Clock, LogOut, ImageOff } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
 
 function EventCard({ event }: { event: EventWithCount }) {
@@ -33,61 +33,70 @@ function EventCard({ event }: { event: EventWithCount }) {
       className="bg-surface rounded-2xl border border-border overflow-hidden cursor-pointer transition-all duration-200 hover:border-border-light hover:shadow-lg hover:shadow-black/20 active:scale-[0.98]"
       onClick={() => navigate(`/events/${event.event_id}`)}
     >
-      {/* Barra de destaque no topo */}
-      <div className="h-1 bg-gradient-to-r from-primary/80 to-secondary/60" />
-
-      <div className="p-4 space-y-3">
-        {/* Linha 1: Nome + Participantes */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-text-primary leading-snug">
-              {event.event_name}
-            </h3>
-            <p className="text-xs text-text-muted mt-0.5">
-              por {event.creator_name}
-            </p>
-          </div>
-          <Badge>
-            <Users className="w-3 h-3 mr-1" />
-            {event.participant_count}
-          </Badge>
+      <div className="flex">
+        {/* Miniatura da foto */}
+        <div className="w-24 shrink-0">
+          {event.event_picture ? (
+            <img src={event.event_picture} alt={event.event_name} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-surface-light flex items-center justify-center">
+              <ImageOff className="w-6 h-6 text-text-muted/40" />
+            </div>
+          )}
         </div>
 
-        {/* Linha 2: Data + Hora + Valor */}
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-1.5 text-text-secondary">
-            <CalendarDays className="w-3.5 h-3.5 text-primary" />
-            <span>{formatEventDate(event.event_date)}</span>
-            <span className="text-text-muted">({formatDayOfWeek(event.event_date)})</span>
+        <div className="flex-1 min-w-0 p-3 space-y-2">
+          {/* Linha 1: Nome + Participantes */}
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-text-primary leading-snug text-sm">
+                {event.event_name}
+              </h3>
+              <p className="text-[11px] text-text-muted mt-0.5">
+                por {event.creator_name}
+              </p>
+            </div>
+            <Badge>
+              <Users className="w-3 h-3 mr-1" />
+              {event.participant_count}
+            </Badge>
           </div>
-          <div className="flex items-center gap-1.5 text-text-secondary">
-            <Clock className="w-3.5 h-3.5 text-primary" />
-            <span>{formatTime(event.event_start_time)}</span>
-          </div>
-          <span className={`ml-auto text-sm font-bold ${isFree ? 'text-success' : 'text-primary'}`}>
-            {cost}
-          </span>
-        </div>
 
-        {/* Linha 3: Endereço + Botão */}
-        <div className="flex items-center gap-3 pt-1 border-t border-border/50">
-          <div className="flex items-center gap-1.5 text-sm text-text-muted flex-1 min-w-0">
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">{event.event_address}</span>
+          {/* Linha 2: Data + Hora + Valor */}
+          <div className="flex items-center gap-3 text-xs">
+            <div className="flex items-center gap-1 text-text-secondary">
+              <CalendarDays className="w-3 h-3 text-primary" />
+              <span>{formatEventDate(event.event_date)}</span>
+            </div>
+            <div className="flex items-center gap-1 text-text-secondary">
+              <Clock className="w-3 h-3 text-primary" />
+              <span>{formatTime(event.event_start_time)}</span>
+            </div>
+            <span className={`ml-auto text-xs font-bold ${isFree ? 'text-success' : 'text-primary'}`}>
+              {cost}
+            </span>
           </div>
-          <Button
-            size="sm"
-            variant={isRegistered ? 'secondary' : 'primary'}
-            onClick={handleToggle}
-            disabled={join.isPending || leave.isPending}
-            className="shrink-0"
-          >
-            {isRegistered ? (
-              <><Check className="w-3.5 h-3.5" /> Inscrito</>
-            ) : (
-              <><UserPlus className="w-3.5 h-3.5" /> Participar</>
-            )}
-          </Button>
+
+          {/* Linha 3: Endereço + Botão */}
+          <div className="flex items-center gap-2 pt-1 border-t border-border/50">
+            <div className="flex items-center gap-1 text-xs text-text-muted flex-1 min-w-0">
+              <MapPin className="w-3 h-3 shrink-0" />
+              <span className="truncate">{event.event_address}</span>
+            </div>
+            <Button
+              size="sm"
+              variant={isRegistered ? 'secondary' : 'primary'}
+              onClick={handleToggle}
+              disabled={join.isPending || leave.isPending}
+              className="shrink-0"
+            >
+              {isRegistered ? (
+                <><Check className="w-3.5 h-3.5" /> Inscrito</>
+              ) : (
+                <><UserPlus className="w-3.5 h-3.5" /> Participar</>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
