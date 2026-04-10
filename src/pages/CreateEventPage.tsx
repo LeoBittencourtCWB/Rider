@@ -70,14 +70,14 @@ export default function CreateEventPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 space-y-4">
         <div
           onClick={() => document.getElementById('event-image')?.click()}
-          className="w-full h-40 rounded-2xl bg-surface border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors overflow-hidden"
+          className="w-full h-40 rounded-2xl bg-black border-2 border-dashed border-primary/40 flex flex-col items-center justify-center cursor-pointer hover:border-primary/70 transition-colors overflow-hidden"
         >
           {imagePreview ? (
             <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
           ) : (
             <>
-              <ImagePlus className="w-8 h-8 text-text-muted mb-2" />
-              <span className="text-sm text-text-muted">Adicionar foto/eflyer</span>
+              <ImagePlus className="w-8 h-8 text-primary mb-2" />
+              <span className="text-sm text-white/70">Adicionar foto/eflyer</span>
             </>
           )}
           <input
@@ -92,7 +92,7 @@ export default function CreateEventPage() {
         <Input id="event_name" label="Nome do Evento *" placeholder="Ex: Encontro de Motociclistas SP" error={errors.event_name?.message} {...register('event_name')} />
         <div>
           <Textarea id="event_description" label="Descrição" placeholder="Descreva o evento..." rows={4} {...register('event_description')} />
-          <p className="text-[10px] text-text-muted mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
+          <p className="text-[10px] text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
         </div>
         <Input id="event_address" label="Endereço *" placeholder="Rua, número, bairro, cidade" error={errors.event_address?.message} {...register('event_address')} />
         <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />

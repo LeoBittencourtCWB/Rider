@@ -54,8 +54,8 @@ export default function ProfileSetupPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 mb-1">
             <UserCheck className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold">Complete seu Perfil</h1>
-          <p className="text-text-muted text-sm">
+          <h1 className="text-2xl font-bold text-white">Complete seu Perfil</h1>
+          <p className="text-white/70 text-sm">
             Precisamos de algumas informações para continuar
           </p>
         </div>

@@ -4,13 +4,12 @@ import { useEventDetail, useDeleteEvent } from '@/hooks/useEvents'
 import { useAuthStore } from '@/stores/authStore'
 import { useEventRegistration, useEventParticipants } from '@/hooks/useRegistrations'
 import { TopBar } from '@/components/layout/TopBar'
-import { Button } from '@/components/ui/button'
 import { Avatar } from '@/components/ui/avatar'
 import { PageSpinner } from '@/components/ui/spinner'
 import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency, getWhatsAppShareUrl, getGoogleMapsUrl, getWazeUrl } from '@/lib/utils'
 import {
   CalendarDays, Clock, MapPin, DollarSign, Users,
-  Share2, Navigation, UserPlus, Check, Map, X, Trash2
+  Share2, Navigation, ThumbsUp, Check, Map, X, Trash2
 } from 'lucide-react'
 
 export default function EventDetailPage() {
@@ -47,7 +46,6 @@ export default function EventDetailPage() {
               alt={event.event_name}
               className="w-full h-52 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
           </div>
 
           {showFullImage && (
@@ -71,78 +69,90 @@ export default function EventDetailPage() {
         </>
       )}
 
-      {/* Ações */}
-      <div className="px-4 pt-3 pb-0">
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="outline" onClick={handleShare}>
-            <Share2 className="w-4 h-4" />
-            <span className="text-xs">WhatsApp</span>
-          </Button>
-          <Button
-            variant="outline"
+      {/* Ícones de ação inline */}
+      <div className="px-4 pt-4">
+        <div className="flex items-center justify-center gap-8">
+          <button
+            onClick={handleShare}
+            className="flex flex-col items-center gap-1.5 text-white hover:text-primary transition-colors"
+          >
+            <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
+              <Share2 className="w-5 h-5 text-primary" />
+            </div>
+            <span className="text-[11px] font-medium">WhatsApp</span>
+          </button>
+          <button
             onClick={() => window.open(getGoogleMapsUrl(event.event_address), '_blank')}
+            className="flex flex-col items-center gap-1.5 text-white hover:text-primary transition-colors"
           >
-            <Map className="w-4 h-4" />
-            <span className="text-xs">Google Maps</span>
-          </Button>
-          <Button
-            variant="outline"
+            <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
+              <Map className="w-5 h-5 text-primary" />
+            </div>
+            <span className="text-[11px] font-medium">Google Maps</span>
+          </button>
+          <button
             onClick={() => window.open(getWazeUrl(event.event_address), '_blank')}
+            className="flex flex-col items-center gap-1.5 text-white hover:text-primary transition-colors"
           >
-            <Navigation className="w-4 h-4" />
-            <span className="text-xs">Waze</span>
-          </Button>
+            <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
+              <Navigation className="w-5 h-5 text-primary" />
+            </div>
+            <span className="text-[11px] font-medium">Waze</span>
+          </button>
         </div>
       </div>
 
       <div className="px-4 py-5 space-y-5">
         {/* Cabeçalho */}
         <div>
-          <h2 className="text-xl font-bold leading-tight">{event.event_name}</h2>
-          <p className="text-sm text-text-muted mt-1">
+          <h2 className="text-xl font-bold text-white leading-tight">{event.event_name}</h2>
+          <p className="text-sm text-white/70 mt-1">
             Criado por <span className="text-primary font-medium">{event.creator_name}</span>
           </p>
         </div>
 
+        {/* Descrição em caixa preta */}
         {event.event_description && (
-          <div
-            className="text-text-secondary text-sm leading-relaxed whitespace-pre-line"
-            dangerouslySetInnerHTML={{
-              __html: event.event_description
-                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                .replace(/\*\*(.+?)\*\*/g, '<strong class="text-text-primary font-semibold">$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            }}
-          />
+          <div className="bg-black rounded-2xl border border-primary/30 p-4">
+            <div
+              className="text-white/90 text-sm leading-relaxed whitespace-pre-line"
+              dangerouslySetInnerHTML={{
+                __html: event.event_description
+                  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                  .replace(/\*\*(.+?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+                  .replace(/\*(.+?)\*/g, '<em>$1</em>')
+              }}
+            />
+          </div>
         )}
 
         {/* Informações */}
-        <div className="bg-surface rounded-2xl border border-border divide-y divide-border/50">
+        <div className="bg-black rounded-2xl border border-primary/30 divide-y divide-primary/20">
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <CalendarDays className="w-4 h-4 text-primary" />
             </div>
-            <p className="text-sm font-medium">
-              {formatEventDate(event.event_date)} <span className="text-text-muted font-normal">({formatDayOfWeek(event.event_date)})</span>
+            <p className="text-sm font-medium text-white">
+              {formatEventDate(event.event_date)} <span className="text-white/60 font-normal">({formatDayOfWeek(event.event_date)})</span>
             </p>
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <Clock className="w-4 h-4 text-primary" />
             </div>
-            <p className="text-sm">{formatTime(event.event_start_time)}{event.event_end_time ? ` - ${formatTime(event.event_end_time)}` : ''}</p>
+            <p className="text-sm text-white">{formatTime(event.event_start_time)}{event.event_end_time ? ` - ${formatTime(event.event_end_time)}` : ''}</p>
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <MapPin className="w-4 h-4 text-primary" />
             </div>
-            <p className="text-sm flex-1">{event.event_address}</p>
+            <p className="text-sm text-white flex-1">{event.event_address}</p>
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <DollarSign className="w-4 h-4 text-primary" />
             </div>
-            <p className={`text-sm font-semibold ${isFree ? 'text-success' : 'text-text-primary'}`}>
+            <p className={`text-sm font-semibold ${isFree ? 'text-success' : 'text-white'}`}>
               {formatCurrency(event.event_cost)}
             </p>
           </div>
@@ -150,58 +160,57 @@ export default function EventDetailPage() {
             <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
               <Users className="w-4 h-4 text-primary" />
             </div>
-            <p className="text-sm">{event.participant_count} participante(s) confirmado(s)</p>
+            <p className="text-sm text-white">{event.participant_count} participante(s) confirmado(s)</p>
           </div>
         </div>
 
-        {/* Botão Participar */}
-        <Button
-          className="w-full py-5 text-lg"
-          size="lg"
-          variant={isRegistered ? 'secondary' : 'primary'}
-          onClick={() => isRegistered ? leave.mutate() : join.mutate()}
-          disabled={join.isPending || leave.isPending}
-        >
-          {isRegistered ? (
-            <><Check className="w-6 h-6" /> Inscrito</>
-          ) : (
-            <><UserPlus className="w-6 h-6" /> Participar</>
-          )}
-        </Button>
-
         {/* Participantes */}
         <div>
-          <h3 className="text-sm font-semibold text-text-secondary mb-3">
+          <h3 className="text-sm font-semibold text-white mb-3">
             Participantes ({participants?.length || 0})
           </h3>
           {participants && participants.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {participants.map((p) => (
-                <div key={p.registration_id} className="flex items-center gap-2 bg-surface rounded-full border border-border pl-1 pr-3 py-1">
+                <div key={p.registration_id} className="flex items-center gap-2 bg-black rounded-full border border-primary/30 pl-1 pr-3 py-1">
                   <Avatar src={p.profiles?.user_picture} name={p.profiles?.user_name} size="sm" />
-                  <span className="text-xs text-text-secondary">{p.profiles?.user_name}</span>
+                  <span className="text-xs text-white">{p.profiles?.user_name}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-text-muted">Nenhum participante inscrito ainda.</p>
+            <p className="text-sm text-white/60">Nenhum participante inscrito ainda.</p>
           )}
+        </div>
+
+        {/* Botão Participar/Inscrito no canto inferior direito */}
+        <div className="flex justify-end pt-2">
+          <button
+            onClick={() => isRegistered ? leave.mutate() : join.mutate()}
+            disabled={join.isPending || leave.isPending}
+            className="flex items-center gap-2 bg-black border border-primary/40 rounded-full px-6 py-3 text-primary font-semibold text-base hover:border-primary/70 transition-all shadow-lg shadow-black/50 disabled:opacity-50"
+          >
+            {isRegistered ? (
+              <><Check className="w-5 h-5" /> Inscrito</>
+            ) : (
+              <><ThumbsUp className="w-5 h-5" /> Participar</>
+            )}
+          </button>
         </div>
 
         {/* Deletar evento (apenas dono) */}
         {session?.user?.id === event.created_by && (
-          <Button
-            variant="danger"
-            className="w-full"
+          <button
             onClick={() => {
               if (confirm('Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.')) {
                 deleteEvent.mutate(id!, { onSuccess: () => navigate('/') })
               }
             }}
             disabled={deleteEvent.isPending}
+            className="w-full flex items-center justify-center gap-2 bg-error/90 hover:bg-error text-white font-semibold rounded-full px-6 py-3 transition-all disabled:opacity-50"
           >
             <Trash2 className="w-4 h-4" /> Excluir Evento
-          </Button>
+          </button>
         )}
       </div>
     </>

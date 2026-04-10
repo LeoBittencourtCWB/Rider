@@ -21,13 +21,13 @@ export default function ContactPage() {
       <TopBar title="Entrar em Contato" />
 
       <div className="px-4 py-5 space-y-5">
-        <div className="flex items-start gap-4 bg-surface rounded-2xl border border-border p-5">
+        <div className="flex items-start gap-4 bg-black rounded-2xl border border-primary/30 p-5">
           <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
             <MessageCircle className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm">Fale Conosco</h3>
-            <p className="text-xs text-text-muted mt-1 leading-relaxed">
+            <h3 className="font-semibold text-sm text-white">Fale Conosco</h3>
+            <p className="text-xs text-white/70 mt-1 leading-relaxed">
               Descreva o assunto que deseja relatar. Sua mensagem será enviada para nossa equipe.
             </p>
           </div>
@@ -42,18 +42,19 @@ export default function ContactPage() {
           onChange={(e) => setMessage(e.target.value)}
         />
 
-        <Button
-          className="w-full"
-          size="lg"
-          onClick={handleSend}
-          disabled={contact.isPending || !message.trim()}
-        >
-          {contact.isPending ? (
-            <Spinner size="sm" />
-          ) : (
-            <><Send className="w-4 h-4" /> Enviar Mensagem</>
-          )}
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            size="lg"
+            onClick={handleSend}
+            disabled={contact.isPending || !message.trim()}
+          >
+            {contact.isPending ? (
+              <Spinner size="sm" />
+            ) : (
+              <><Send className="w-4 h-4" /> Enviar Mensagem</>
+            )}
+          </Button>
+        </div>
       </div>
     </>
   )

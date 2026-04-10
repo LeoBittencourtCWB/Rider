@@ -78,7 +78,7 @@ export default function UpdateProfilePage() {
               onChange={handleAvatarChange}
             />
           </div>
-          <p className="text-sm text-text-secondary mt-2">{profile?.email}</p>
+          <p className="text-sm text-white/80 mt-2">{profile?.email}</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
@@ -88,9 +88,11 @@ export default function UpdateProfilePage() {
           <Input id="motorcycle_plate" label="Placa da Moto" placeholder="ABC-1234" {...register('motorcycle_plate')} />
           <Input id="backseat_name" label="Nome do(a) Garupa" placeholder="Nome do(a) acompanhante" {...register('backseat_name')} />
 
-          <Button type="submit" className="w-full" size="lg" disabled={updateProfile.isPending}>
-            {updateProfile.isPending ? <Spinner size="sm" /> : 'Salvar'}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" size="lg" disabled={updateProfile.isPending}>
+              {updateProfile.isPending ? <Spinner size="sm" /> : 'Salvar Alterações'}
+            </Button>
+          </div>
         </form>
 
       </div>

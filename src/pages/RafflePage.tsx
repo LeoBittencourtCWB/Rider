@@ -52,7 +52,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
   return (
     <div className="px-4 py-4 space-y-4">
       <Card>
-        <h3 className="font-semibold mb-3">Produtos para Sorteio</h3>
+        <h3 className="font-semibold mb-3 text-white">Produtos para Sorteio</h3>
 
         <div className="flex gap-2 mb-3">
           <Input
@@ -68,14 +68,14 @@ function RaffleManager({ event }: { event: EventWithCount }) {
         </div>
 
         {products?.length === 0 ? (
-          <p className="text-sm text-text-muted text-center py-4">Nenhum produto cadastrado</p>
+          <p className="text-sm text-white/60 text-center py-4">Nenhum produto cadastrado</p>
         ) : (
           <div className="space-y-2">
             {products?.map((product) => {
               const winner = winners?.find((w) => w.raffle_products.product_id === product.product_id)
 
               return (
-                <div key={product.product_id} className="flex items-center gap-2 bg-surface-light rounded-xl px-3 py-2">
+                <div key={product.product_id} className="flex items-center gap-2 bg-black/50 border border-primary/20 rounded-xl px-3 py-2">
                   <Gift className="w-4 h-4 text-primary shrink-0" />
                   <span className="flex-1 text-sm">{product.product_name}</span>
                   {winner ? (
@@ -86,7 +86,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
                   ) : (
                     <button
                       onClick={() => removeProduct.mutate({ productId: product.product_id, eventId: event.event_id })}
-                      className="text-text-muted hover:text-error transition-colors"
+                      className="text-white/60 hover:text-error transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -113,7 +113,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
           </h3>
           <div className="space-y-2">
             {drawResults.map((result) => (
-              <div key={result.product_id} className="flex items-center gap-2 bg-surface-light rounded-xl px-3 py-2">
+              <div key={result.product_id} className="flex items-center gap-2 bg-black/50 border border-primary/20 rounded-xl px-3 py-2">
                 <Gift className="w-4 h-4 text-primary" />
                 <span className="text-sm flex-1">{result.product_name}</span>
                 <Badge variant="success">
@@ -128,10 +128,10 @@ function RaffleManager({ event }: { event: EventWithCount }) {
 
       {hasWinners && !drawResults && (
         <Card>
-          <h3 className="font-semibold mb-3">Sorteios Anteriores</h3>
+          <h3 className="font-semibold mb-3 text-white">Sorteios Anteriores</h3>
           <div className="space-y-2">
             {winners?.map((w) => (
-              <div key={w.winner_id} className="flex items-center gap-2 bg-surface-light rounded-xl px-3 py-2">
+              <div key={w.winner_id} className="flex items-center gap-2 bg-black/50 border border-primary/20 rounded-xl px-3 py-2">
                 <Trophy className="w-4 h-4 text-success" />
                 <span className="text-sm flex-1">{w.raffle_products.product_name}</span>
                 <span className="text-sm text-success font-medium">{w.profiles.user_name}</span>
@@ -171,15 +171,15 @@ export default function RafflePage() {
           />
         ) : (
           <>
-            <p className="text-sm text-text-secondary">Selecione o evento para o sorteio:</p>
+            <p className="text-sm text-white/80">Selecione o evento para o sorteio:</p>
             {events.map((event) => (
               <Card
                 key={event.event_id}
                 className="cursor-pointer active:scale-[0.98] transition-transform"
                 onClick={() => setSelected(event)}
               >
-                <h3 className="font-semibold">{event.event_name}</h3>
-                <p className="text-sm text-text-secondary">
+                <h3 className="font-semibold text-white">{event.event_name}</h3>
+                <p className="text-sm text-white/80">
                   {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)} | {event.participant_count} participante(s)
                 </p>
               </Card>

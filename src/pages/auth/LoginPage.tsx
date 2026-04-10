@@ -82,20 +82,20 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold tracking-tight">
             <span className="text-primary">Rider</span>
           </h1>
-          <p className="text-text-muted text-sm">
+          <p className="text-white/80 text-sm">
             Gerencie e participe de eventos de motociclistas
           </p>
         </div>
 
         {/* Toggle Entrar / Criar */}
-        <div className="flex bg-surface rounded-xl p-1 border border-border">
+        <div className="flex bg-black rounded-full p-1 border border-primary/30">
           <button
             onClick={() => setMode('signin')}
             className={cn(
-              'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200',
+              'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-all duration-200',
               mode === 'signin'
-                ? 'bg-primary text-white shadow-md shadow-primary/25'
-                : 'text-text-muted hover:text-text-secondary'
+                ? 'bg-white text-black shadow-md'
+                : 'text-white/70 hover:text-white'
             )}
           >
             <LogIn className="w-4 h-4" /> Entrar
@@ -103,10 +103,10 @@ export default function LoginPage() {
           <button
             onClick={() => setMode('signup')}
             className={cn(
-              'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200',
+              'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-all duration-200',
               mode === 'signup'
-                ? 'bg-primary text-white shadow-md shadow-primary/25'
-                : 'text-text-muted hover:text-text-secondary'
+                ? 'bg-white text-black shadow-md'
+                : 'text-white/70 hover:text-white'
             )}
           >
             <UserPlus className="w-4 h-4" /> Criar Conta
@@ -155,14 +155,14 @@ export default function LoginPage() {
         </form>
 
         {mode === 'signin' ? (
-          <p className="text-center text-sm text-text-muted">
+          <p className="text-center text-sm text-white/70">
             Não tem conta?{' '}
             <button onClick={() => setMode('signup')} className="text-primary font-medium hover:underline">
               Cadastre-se
             </button>
           </p>
         ) : (
-          <p className="text-center text-sm text-text-muted">
+          <p className="text-center text-sm text-white/70">
             Já tem conta?{' '}
             <button onClick={() => setMode('signin')} className="text-primary font-medium hover:underline">
               Faça login

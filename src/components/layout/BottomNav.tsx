@@ -5,19 +5,16 @@ import {
   Home,
   CalendarDays,
   Settings,
-  UserCog,
   Mail,
   PlusCircle,
   Pencil,
   Gift,
-  X,
 } from 'lucide-react'
 
 const mainItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/agenda', label: 'Minha Agenda', icon: CalendarDays },
   { path: '__manage__', label: 'Gerenciar', icon: Settings },
-  { path: '/profile', label: 'Perfil', icon: UserCog },
   { path: '/contact', label: 'Contato', icon: Mail },
 ]
 
@@ -50,52 +47,31 @@ export function BottomNav() {
       {/* Overlay do submenu Gerenciar */}
       {showManage && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/40 z-40"
           onClick={() => setShowManage(false)}
         />
       )}
 
-      {/* Submenu Gerenciar Evento */}
+      {/* Submenu Gerenciar Evento - pílulas */}
       {showManage && (
-        <div className="fixed bottom-18 left-0 right-0 z-50 px-4 pb-2">
-          <div className="max-w-lg mx-auto bg-surface border border-border rounded-2xl p-2 shadow-xl shadow-black/30">
-            <div className="flex items-center justify-between px-3 py-2 mb-1">
-              <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Gerenciar Evento</span>
-              <button
-                onClick={() => setShowManage(false)}
-                className="w-6 h-6 rounded-full flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-surface-light transition-all"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            {manageItems.map((item) => (
-              <button
-                key={item.path}
-                onClick={() => handleNav(item.path)}
-                className={cn(
-                  'w-full flex items-center gap-3 px-3 py-3.5 rounded-xl text-base font-medium transition-all',
-                  location.pathname.startsWith(item.path)
-                    ? 'bg-primary/15 text-primary'
-                    : 'text-text-secondary hover:bg-surface-light hover:text-text-primary'
-                )}
-              >
-                <div className={cn(
-                  'w-9 h-9 rounded-lg flex items-center justify-center shrink-0',
-                  location.pathname.startsWith(item.path)
-                    ? 'bg-primary/20'
-                    : 'bg-surface-light'
-                )}>
-                  <item.icon className="w-4.5 h-4.5" />
-                </div>
-                {item.label}
-              </button>
-            ))}
-          </div>
+        <div className="fixed bottom-20 right-4 z-50 flex flex-col items-end gap-3">
+          {manageItems.map((item) => (
+            <button
+              key={item.path}
+              onClick={() => handleNav(item.path)}
+              className="flex items-center gap-3 bg-black border border-primary/40 rounded-full px-5 py-3 text-white text-base font-medium shadow-xl shadow-black/50 hover:border-primary/70 transition-all"
+            >
+              <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                <item.icon className="w-4 h-4 text-primary" />
+              </div>
+              {item.label}
+            </button>
+          ))}
         </div>
       )}
 
       {/* Barra de navegação */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-surface/95 backdrop-blur-xl border-t border-border z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-primary/20 z-50">
         <div className="max-w-lg mx-auto flex items-center justify-around h-16 px-1">
           {mainItems.map((item) => {
             const isManageBtn = item.path === '__manage__'
@@ -110,17 +86,17 @@ export function BottomNav() {
                 key={item.path}
                 onClick={() => handleNav(item.path)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-2 min-w-[3rem] rounded-xl transition-all duration-200',
+                  'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-2 min-w-[3.5rem] rounded-xl transition-all duration-200',
                   isActive
                     ? 'text-primary'
-                    : 'text-text-muted hover:text-text-secondary'
+                    : 'text-primary/70 hover:text-primary'
                 )}
               >
                 {isActive && (
-                  <span className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-6 h-0.5 bg-primary rounded-full" />
+                  <span className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
                 )}
-                <item.icon className={cn('w-5 h-5', isActive && 'drop-shadow-[0_0_6px_rgba(255,107,0,0.5)]')} />
-                <span className="text-[9px] font-medium leading-none">{item.label}</span>
+                <item.icon className={cn('w-6 h-6', isActive && 'drop-shadow-[0_0_6px_rgba(255,107,0,0.5)]')} />
+                <span className="text-[10px] font-medium leading-none">{item.label}</span>
               </button>
             )
           })}

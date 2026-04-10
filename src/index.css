@@ -29,10 +29,12 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-background);
+  background: linear-gradient(180deg, #FF6B00 0%, #C2410C 50%, #7F1D1D 100%);
+  background-attachment: fixed;
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
 }
 
 #root {

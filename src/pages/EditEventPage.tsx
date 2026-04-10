@@ -82,14 +82,14 @@ function EditForm({ event }: { event: EventWithCount }) {
     <form onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 space-y-4">
       <div
         onClick={() => document.getElementById('edit-event-image')?.click()}
-        className="w-full h-40 rounded-2xl bg-surface border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors overflow-hidden"
+        className="w-full h-40 rounded-2xl bg-black border-2 border-dashed border-primary/40 flex flex-col items-center justify-center cursor-pointer hover:border-primary/70 transition-colors overflow-hidden"
       >
         {imagePreview ? (
           <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
         ) : (
           <>
-            <ImagePlus className="w-8 h-8 text-text-muted mb-2" />
-            <span className="text-sm text-text-muted">Alterar foto/eflyer</span>
+            <ImagePlus className="w-8 h-8 text-primary mb-2" />
+            <span className="text-sm text-white/70">Alterar foto/eflyer</span>
           </>
         )}
         <input id="edit-event-image" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
@@ -98,7 +98,7 @@ function EditForm({ event }: { event: EventWithCount }) {
       <Input id="event_name" label="Nome do Evento *" error={errors.event_name?.message} {...register('event_name')} />
       <div>
         <Textarea id="event_description" label="Descrição" rows={4} {...register('event_description')} />
-        <p className="text-[10px] text-text-muted mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
+        <p className="text-[10px] text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
       </div>
       <Input id="event_address" label="Endereço *" error={errors.event_address?.message} {...register('event_address')} />
       <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
@@ -142,15 +142,15 @@ export default function EditEventPage() {
           />
         ) : (
           <>
-            <p className="text-sm text-text-secondary">Selecione o evento para editar:</p>
+            <p className="text-sm text-white">Selecione o evento para editar:</p>
             {events.map((event) => (
               <Card
                 key={event.event_id}
                 className="cursor-pointer active:scale-[0.98] transition-transform"
                 onClick={() => setSelected(event)}
               >
-                <h3 className="font-semibold">{event.event_name}</h3>
-                <p className="text-sm text-text-secondary">
+                <h3 className="font-semibold text-white">{event.event_name}</h3>
+                <p className="text-sm text-white/70">
                   {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)}
                 </p>
               </Card>
