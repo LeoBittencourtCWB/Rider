@@ -46,6 +46,9 @@ export default function EventDetailPage() {
             <img
               src={event.event_picture}
               alt={event.event_name}
+              width="768"
+              height="208"
+              decoding="async"
               className="w-full h-52 object-cover"
             />
           </div>

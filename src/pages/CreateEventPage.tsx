@@ -96,7 +96,10 @@ export default function CreateEventPage() {
           <p className="text-xs text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
         </div>
         <Input id="event_address" label="Endereço *" placeholder="Rua, número, bairro, cidade" error={errors.event_address?.message} {...register('event_address')} />
-        <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
+        <div>
+          <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
+          <p className="text-xs text-white/60 mt-1">Formato: dd/mm/aaaa</p>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <Input id="event_start_time" label="Horário de Início *" type="time" error={errors.event_start_time?.message} {...register('event_start_time')} />
           <Input id="event_end_time" label="Horário de Término" type="time" {...register('event_end_time')} />

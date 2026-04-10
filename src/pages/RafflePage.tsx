@@ -175,16 +175,17 @@ export default function RafflePage() {
           <>
             <p className="text-sm text-white/80">Selecione o evento para o sorteio:</p>
             {events.map((event) => (
-              <Card
+              <button
                 key={event.event_id}
-                className="cursor-pointer active:scale-[0.98] transition-transform"
+                type="button"
                 onClick={() => setSelected(event)}
+                className="w-full text-left bg-black rounded-2xl border border-primary/30 p-4 transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
               >
                 <h3 className="font-semibold text-white">{event.event_name}</h3>
                 <p className="text-sm text-white/80">
                   {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)} | {event.participant_count} participante(s)
                 </p>
-              </Card>
+              </button>
             ))}
           </>
         )}

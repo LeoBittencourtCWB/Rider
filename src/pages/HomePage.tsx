@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEvents } from '@/hooks/useEvents'
 import { useEventRegistration } from '@/hooks/useRegistrations'
 import { useAuth } from '@/hooks/useAuth'
 import { Avatar } from '@/components/ui/avatar'
-import { PageSpinner } from '@/components/ui/spinner'
+import { EventCardSkeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/empty-state'
 import { formatEventDate, formatTime, formatCurrency } from '@/lib/utils'
 import { Search, MapPin, Users, CalendarDays, ThumbsUp, Check, Clock, ImageOff, Bike } from 'lucide-react'
@@ -28,14 +28,23 @@ function EventCard({ event }: { event: EventWithCount }) {
 
   return (
     <div
+      role="link"
+      tabIndex={0}
+      aria-label={`Ver detalhes do evento ${event.event_name}`}
       className="bg-black rounded-2xl border border-primary/30 overflow-hidden cursor-pointer transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
       onClick={() => navigate(`/events/${event.event_id}`)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          navigate(`/events/${event.event_id}`)
+        }
+      }}
     >
       <div className="flex">
         {/* Miniatura */}
         <div className="w-24 h-32 shrink-0 border-r-[6px] border-black">
           {event.event_picture ? (
-            <img src={event.event_picture} alt={event.event_name} className="w-full h-full object-cover" />
+            <img src={event.event_picture} alt={event.event_name} loading="lazy" decoding="async" width="96" height="128" className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full bg-black flex items-center justify-center">
               <ImageOff className="w-6 h-6 text-primary/40" />
@@ -96,10 +105,35 @@ function EventCard({ event }: { event: EventWithCount }) {
 }
 
 export default function HomePage() {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(() => sessionStorage.getItem('home:search') ?? '')
   const { data: events, isLoading } = useEvents(search || undefined)
   const { profile } = useAuth()
   const navigate = useNavigate()
+
+  // Persistir busca enquanto usuário navega para outras telas
+  useEffect(() => {
+    sessionStorage.setItem('home:search', search)
+  }, [search])
+
+  // Restaurar scroll ao voltar e salvar ao sair
+  useEffect(() => {
+    if (isLoading) return
+    const saved = sessionStorage.getItem('home:scroll')
+    if (saved) {
+      window.scrollTo(0, parseInt(saved, 10) || 0)
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    function onSave() {
+      sessionStorage.setItem('home:scroll', String(window.scrollY))
+    }
+    window.addEventListener('pagehide', onSave)
+    return () => {
+      sessionStorage.setItem('home:scroll', String(window.scrollY))
+      window.removeEventListener('pagehide', onSave)
+    }
+  }, [])
 
   return (
     <>
@@ -134,7 +168,11 @@ export default function HomePage() {
       {/* Lista de eventos */}
       <div className="px-4 py-4 space-y-4">
         {isLoading ? (
-          <PageSpinner />
+          <>
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+          </>
         ) : !events?.length ? (
           <EmptyState
             icon={<CalendarDays className="w-12 h-12" />}

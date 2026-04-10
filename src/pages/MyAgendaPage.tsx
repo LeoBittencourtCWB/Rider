@@ -38,14 +38,23 @@ export default function MyAgendaPage() {
             return (
               <div
                 key={reg.registration_id}
+                role="link"
+                tabIndex={0}
+                aria-label={`Ver detalhes do evento ${reg.events.event_name}`}
                 onClick={() => navigate(`/events/${reg.events.event_id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    navigate(`/events/${reg.events.event_id}`)
+                  }
+                }}
                 className="bg-black rounded-2xl border border-primary/30 overflow-hidden cursor-pointer transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
               >
                 <div className="flex">
                   {/* Miniatura */}
                   <div className="w-24 h-32 shrink-0 border-r-[6px] border-black">
                     {reg.events.event_picture ? (
-                      <img src={reg.events.event_picture} alt={reg.events.event_name} className="w-full h-full object-cover" />
+                      <img src={reg.events.event_picture} alt={reg.events.event_name} loading="lazy" decoding="async" width="96" height="128" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full bg-black flex items-center justify-center">
                         <ImageOff className="w-6 h-6 text-primary/40" />

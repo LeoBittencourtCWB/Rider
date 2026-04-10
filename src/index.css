@@ -71,6 +71,17 @@ input, textarea, select {
   }
 }
 
+/* Acessibilidade: foco visível para elementos interativos por padrão.
+   Usa focus-visible para não aparecer em clique de mouse, apenas teclado. */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
 /* Animações utilitárias */
 @keyframes fade-in {
   from { opacity: 0; }

@@ -18,6 +18,10 @@ createRoot(document.getElementById('root')!).render(
         <Toaster
           position="top-center"
           toastOptions={{
+            ariaProps: {
+              role: 'status',
+              'aria-live': 'polite',
+            },
             style: {
               background: '#1A1A1A',
               color: '#FFFFFF',

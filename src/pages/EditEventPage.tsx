@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { useMyEvents, useUpdateEvent, useUploadEventImage } from '@/hooks/useEvents'
 import { useEventParticipants } from '@/hooks/useRegistrations'
 import { TopBar } from '@/components/layout/TopBar'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -166,7 +165,10 @@ function EditForm({ event }: { event: EventWithCount }) {
         <p className="text-xs text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
       </div>
       <Input id="event_address" label="Endereço *" error={errors.event_address?.message} {...register('event_address')} />
-      <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
+      <div>
+        <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
+        <p className="text-xs text-white/60 mt-1">Formato: dd/mm/aaaa</p>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <Input id="event_start_time" label="Horário de Início *" type="time" error={errors.event_start_time?.message} {...register('event_start_time')} />
         <Input id="event_end_time" label="Horário de Término" type="time" {...register('event_end_time')} />
@@ -211,16 +213,17 @@ export default function EditEventPage() {
           <>
             <p className="text-sm text-white">Selecione o evento para editar:</p>
             {events.map((event) => (
-              <Card
+              <button
                 key={event.event_id}
-                className="cursor-pointer active:scale-[0.98] transition-transform"
+                type="button"
                 onClick={() => setSelected(event)}
+                className="w-full text-left bg-black rounded-2xl border border-primary/30 p-4 transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
               >
                 <h3 className="font-semibold text-white">{event.event_name}</h3>
                 <p className="text-sm text-white/70">
                   {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)}
                 </p>
-              </Card>
+              </button>
             ))}
           </>
         )}
