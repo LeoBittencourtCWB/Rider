@@ -86,7 +86,7 @@ export default function UpdateProfilePage() {
           <p className="text-sm text-white/80 mt-2">{profile?.email}</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-14">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-20">
           <Input id="user_name" label="Nome *" autoComplete="name" error={errors.user_name?.message} {...register('user_name')} />
           <Input id="email" label="Email *" type="email" autoComplete="email" inputMode="email" error={errors.email?.message} {...register('email')} />
           <Input id="whatsapp" label="WhatsApp *" type="tel" autoComplete="tel" inputMode="tel" error={errors.whatsapp?.message} {...register('whatsapp')} />
@@ -100,7 +100,7 @@ export default function UpdateProfilePage() {
           </div>
         </form>
 
-        <div className="pt-4 border-t border-white/10">
+        <div className="mt-16 pt-8 border-t border-white/10">
           <button
             type="button"
             onClick={async () => {
