@@ -75,16 +75,18 @@ function EventCard({ event }: { event: EventWithCount }) {
             {cost}
           </span>
           <button
+            type="button"
             onClick={handleToggle}
             disabled={join.isPending || leave.isPending}
-            className={`flex items-center gap-1 font-semibold text-xs transition-colors disabled:opacity-50 ${
+            aria-label={isRegistered ? 'Cancelar inscrição no evento' : 'Inscrever-se no evento'}
+            className={`min-h-11 flex items-center gap-1 px-2 font-semibold text-xs transition-colors disabled:opacity-50 ${
               isRegistered ? 'text-white/90 hover:text-white' : 'text-primary hover:text-primary-hover'
             }`}
           >
             {isRegistered ? (
-              <><Check className="w-4 h-4" /> Inscrito</>
+              <><Check className="w-4 h-4" aria-hidden="true" /> Inscrito</>
             ) : (
-              <><ThumbsUp className="w-4 h-4" /> Participar</>
+              <><ThumbsUp className="w-4 h-4" aria-hidden="true" /> Participar</>
             )}
           </button>
         </div>
@@ -102,22 +104,26 @@ export default function HomePage() {
   return (
     <>
       {/* TopBar personalizado */}
-      <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40">
+      <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 pt-[env(safe-area-inset-top)]">
         <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-2">
           <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
             <Bike className="w-5 h-5 text-primary" />
           </div>
-          <Search className="w-5 h-5 text-primary shrink-0" />
+          <Search className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
+          <label htmlFor="event-search" className="sr-only">Buscar eventos</label>
           <input
+            id="event-search"
             type="text"
             placeholder="Search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 min-w-0 px-4 py-2 rounded-full bg-black border border-primary/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
+            className="flex-1 min-w-0 min-h-11 px-4 py-2 rounded-full bg-black border border-primary/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary/40 text-base"
           />
           <button
+            type="button"
             onClick={() => navigate('/profile')}
-            className="shrink-0 rounded-full border-2 border-primary/40 hover:border-primary/70 transition-all"
+            aria-label="Meu perfil"
+            className="shrink-0 w-11 h-11 flex items-center justify-center rounded-full border-2 border-primary/40 hover:border-primary/70 transition-all"
           >
             <Avatar src={profile?.user_picture} name={profile?.user_name} size="md" />
           </button>

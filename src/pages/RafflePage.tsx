@@ -85,10 +85,12 @@ function RaffleManager({ event }: { event: EventWithCount }) {
                     </Badge>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => removeProduct.mutate({ productId: product.product_id, eventId: event.event_id })}
-                      className="text-white/60 hover:text-error transition-colors"
+                      aria-label={`Remover produto ${product.product_name}`}
+                      className="w-11 h-11 flex items-center justify-center text-white/60 hover:text-error transition-colors"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" aria-hidden="true" />
                     </button>
                   )}
                 </div>

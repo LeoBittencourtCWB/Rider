@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Avatar } from '@/components/ui/avatar'
 import { Spinner } from '@/components/ui/spinner'
-import { Camera } from 'lucide-react'
+import { Camera, LogOut } from 'lucide-react'
 
 const schema = z.object({
   user_name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -22,7 +22,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function UpdateProfilePage() {
-  const { profile } = useAuth()
+  const { profile, signOut } = useAuth()
   const { updateProfile, uploadAvatar } = useProfile()
   const fileRef = useRef<HTMLInputElement>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(profile?.user_picture || null)
@@ -65,10 +65,12 @@ export default function UpdateProfilePage() {
           <div className="relative">
             <Avatar src={avatarPreview} name={profile?.user_name} size="lg" />
             <button
+              type="button"
               onClick={() => fileRef.current?.click()}
-              className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-primary flex items-center justify-center"
+              aria-label="Alterar foto do perfil"
+              className="absolute -bottom-1 -right-1 w-11 h-11 rounded-full bg-primary flex items-center justify-center shadow-lg border-2 border-black"
             >
-              <Camera className="w-3.5 h-3.5 text-white" />
+              <Camera className="w-5 h-5 text-white" aria-hidden="true" />
             </button>
             <input
               ref={fileRef}
@@ -94,6 +96,20 @@ export default function UpdateProfilePage() {
             </Button>
           </div>
         </form>
+
+        <div className="pt-4 border-t border-white/10">
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm('Tem certeza que deseja sair da sua conta?')) {
+                signOut()
+              }
+            }}
+            className="w-full flex items-center justify-center gap-2 min-h-11 px-6 py-3 rounded-full border border-error/40 text-error hover:bg-error/10 font-semibold transition-colors"
+          >
+            <LogOut className="w-5 h-5" aria-hidden="true" /> Sair da Conta
+          </button>
+        </div>
 
       </div>
     </>

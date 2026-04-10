@@ -54,7 +54,7 @@ export function BottomNav() {
 
       {/* Submenu Gerenciar Evento - pílulas */}
       {showManage && (
-        <div className="fixed bottom-20 right-4 z-50 flex flex-col items-end gap-3">
+        <div className="fixed right-4 z-50 flex flex-col items-end gap-3" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom))' }}>
           {manageItems.map((item) => (
             <button
               key={item.path}
@@ -71,7 +71,7 @@ export function BottomNav() {
       )}
 
       {/* Barra de navegação */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-primary/20 z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-primary/20 z-50 pb-[env(safe-area-inset-bottom)]">
         <div className="max-w-lg mx-auto flex items-center justify-around h-16 px-1">
           {mainItems.map((item) => {
             const isManageBtn = item.path === '__manage__'
@@ -84,9 +84,13 @@ export function BottomNav() {
             return (
               <button
                 key={item.path}
+                type="button"
                 onClick={() => handleNav(item.path)}
+                aria-label={item.label}
+                aria-current={!isManageBtn && isActive ? 'page' : undefined}
+                aria-expanded={isManageBtn ? showManage : undefined}
                 className={cn(
-                  'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-2 min-w-[3.5rem] rounded-xl transition-all duration-200',
+                  'relative flex flex-col items-center justify-center gap-0.5 py-1.5 px-2 min-w-[3.5rem] min-h-11 rounded-xl transition-all duration-200',
                   isActive
                     ? 'text-primary'
                     : 'text-primary/70 hover:text-primary'
@@ -95,8 +99,8 @@ export function BottomNav() {
                 {isActive && (
                   <span className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
                 )}
-                <item.icon className={cn('w-6 h-6', isActive && 'drop-shadow-[0_0_6px_rgba(255,107,0,0.5)]')} />
-                <span className="text-[10px] font-medium leading-none">{item.label}</span>
+                <item.icon className={cn('w-6 h-6', isActive && 'drop-shadow-[0_0_6px_rgba(255,107,0,0.5)]')} aria-hidden="true" />
+                <span className="text-[11px] font-medium leading-none">{item.label}</span>
               </button>
             )
           })}
