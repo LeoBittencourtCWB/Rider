@@ -4,15 +4,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMyEvents, useUpdateEvent, useUploadEventImage } from '@/hooks/useEvents'
+import { useEventParticipants } from '@/hooks/useRegistrations'
 import { TopBar } from '@/components/layout/TopBar'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Avatar } from '@/components/ui/avatar'
 import { Spinner, PageSpinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
 import { formatEventDate, formatTime } from '@/lib/utils'
-import { Pencil, ImagePlus } from 'lucide-react'
+import { Pencil, ImagePlus, Users, ChevronDown, ChevronUp } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
 
 const schema = z.object({
@@ -26,6 +28,68 @@ const schema = z.object({
 })
 
 type FormData = z.infer<typeof schema>
+
+function ParticipantsSection({ eventId }: { eventId: string }) {
+  const [open, setOpen] = useState(false)
+  const { data: participants, isLoading } = useEventParticipants(eventId)
+  const count = participants?.length ?? 0
+
+  return (
+    <div className="rounded-2xl bg-black border border-primary/30 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors"
+      >
+        <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+          <Users className="w-4 h-4 text-primary" />
+        </div>
+        <span className="flex-1 text-left text-sm font-semibold text-white">
+          Participantes Inscritos ({count})
+        </span>
+        {open ? (
+          <ChevronUp className="w-4 h-4 text-primary" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-primary" />
+        )}
+      </button>
+      {open && (
+        <div className="border-t border-primary/20 px-4 py-3">
+          {isLoading ? (
+            <div className="flex justify-center py-3">
+              <Spinner size="sm" />
+            </div>
+          ) : count === 0 ? (
+            <p className="text-sm text-white/60 text-center py-2">
+              Nenhum participante inscrito ainda.
+            </p>
+          ) : (
+            <ul className="space-y-2">
+              {participants!.map((p, index) => (
+                <li
+                  key={p.registration_id}
+                  className="flex items-center gap-3 py-1"
+                >
+                  <span className="text-xs text-white/50 w-5 text-right shrink-0">
+                    {index + 1}.
+                  </span>
+                  <Avatar
+                    src={p.profiles?.user_picture}
+                    name={p.profiles?.user_name}
+                    size="sm"
+                  />
+                  <span className="text-sm text-white truncate">
+                    {p.profiles?.user_name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
 
 function EditForm({ event }: { event: EventWithCount }) {
   const navigate = useNavigate()
@@ -107,6 +171,8 @@ function EditForm({ event }: { event: EventWithCount }) {
         <Input id="event_end_time" label="Horário de Término" type="time" {...register('event_end_time')} />
       </div>
       <Input id="event_cost" label="Valor (R$)" type="number" step="0.01" min="0" {...register('event_cost')} />
+
+      <ParticipantsSection eventId={event.event_id} />
 
       <Button type="submit" className="w-full" size="lg" disabled={updateEvent.isPending || uploadImage.isPending}>
         {updateEvent.isPending ? <Spinner size="sm" /> : 'Salvar Alterações'}
