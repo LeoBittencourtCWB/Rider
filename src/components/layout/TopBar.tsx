@@ -13,7 +13,7 @@ export function TopBar({ title, showBack = true, children }: TopBarProps) {
   const isHome = location.pathname === '/'
 
   return (
-    <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 pt-[env(safe-area-inset-top)]">
+    <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 safe-top">
       <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-3">
         {showBack && !isHome && (
           <button

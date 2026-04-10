@@ -139,7 +139,7 @@ export default function HomePage() {
     <>
       <h1 className="sr-only">Rider — Eventos de Motociclistas</h1>
       {/* TopBar personalizado */}
-      <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 safe-top">
         <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-2">
           <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
             <Bike className="w-5 h-5 text-primary" />

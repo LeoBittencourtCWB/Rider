@@ -71,6 +71,17 @@ input, textarea, select {
   }
 }
 
+/* Safe area utilities — no iOS (PWA e Safari mobile) garantem que o
+   conteúdo não fique atrás da status bar / notch / Dynamic Island.
+   Fallback de 2.75rem (44px) cobre iPhones clássicos; PWA com notch
+   devolve valores maiores via env() e prevalece. */
+.safe-top {
+  padding-top: max(env(safe-area-inset-top), 2.75rem);
+}
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+}
+
 /* Acessibilidade: foco visível para elementos interativos por padrão.
    Usa focus-visible para não aparecer em clique de mouse, apenas teclado. */
 button:focus-visible,
