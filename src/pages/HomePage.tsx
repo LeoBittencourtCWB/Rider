@@ -101,20 +101,18 @@ export default function HomePage() {
     <>
       {/* TopBar personalizado */}
       <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40">
-        <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-3">
+        <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-2">
           <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
             <Bike className="w-5 h-5 text-primary" />
           </div>
-          <div className="flex-1 relative">
-            <Search className="w-4 h-4 text-primary absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-black border border-primary/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
-            />
-          </div>
+          <Search className="w-5 h-5 text-primary shrink-0" />
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 min-w-0 px-4 py-2 rounded-full bg-black border border-primary/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary/40 text-sm"
+          />
           <button
             onClick={() => navigate('/profile')}
             className="shrink-0 rounded-full border-2 border-primary/40 hover:border-primary/70 transition-all"
