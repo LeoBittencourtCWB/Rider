@@ -41,11 +41,11 @@ export default function MyAgendaPage() {
             >
               <div className="flex">
                 {/* Miniatura */}
-                <div className="w-24 h-32 shrink-0">
+                <div className="w-24 h-32 shrink-0 border-r border-white/30">
                   {reg.events.event_picture ? (
                     <img src={reg.events.event_picture} alt={reg.events.event_name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-black flex items-center justify-center border-r border-primary/20">
+                    <div className="w-full h-full bg-black flex items-center justify-center">
                       <ImageOff className="w-6 h-6 text-primary/40" />
                     </div>
                   )}

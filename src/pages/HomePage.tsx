@@ -33,11 +33,11 @@ function EventCard({ event }: { event: EventWithCount }) {
     >
       <div className="flex">
         {/* Miniatura */}
-        <div className="w-24 h-32 shrink-0">
+        <div className="w-24 h-32 shrink-0 border-r border-white/30">
           {event.event_picture ? (
             <img src={event.event_picture} alt={event.event_name} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-black flex items-center justify-center border-r border-primary/20">
+            <div className="w-full h-full bg-black flex items-center justify-center">
               <ImageOff className="w-6 h-6 text-primary/40" />
             </div>
           )}
@@ -77,7 +77,9 @@ function EventCard({ event }: { event: EventWithCount }) {
           <button
             onClick={handleToggle}
             disabled={join.isPending || leave.isPending}
-            className="flex items-center gap-1 text-primary font-semibold text-xs hover:text-primary-hover transition-colors disabled:opacity-50"
+            className={`flex items-center gap-1 font-semibold text-xs transition-colors disabled:opacity-50 ${
+              isRegistered ? 'text-white/90 hover:text-white' : 'text-primary hover:text-primary-hover'
+            }`}
           >
             {isRegistered ? (
               <><Check className="w-4 h-4" /> Inscrito</>

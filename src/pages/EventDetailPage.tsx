@@ -188,7 +188,11 @@ export default function EventDetailPage() {
           <button
             onClick={() => isRegistered ? leave.mutate() : join.mutate()}
             disabled={join.isPending || leave.isPending}
-            className="flex items-center gap-2 bg-black border border-primary/40 rounded-full px-6 py-3 text-primary font-semibold text-base hover:border-primary/70 transition-all shadow-lg shadow-black/50 disabled:opacity-50"
+            className={`flex items-center gap-2 bg-black border rounded-full px-6 py-3 font-semibold text-base transition-all shadow-lg shadow-black/50 disabled:opacity-50 ${
+              isRegistered
+                ? 'border-white/40 text-white/90 hover:border-white/70'
+                : 'border-primary/40 text-primary hover:border-primary/70'
+            }`}
           >
             {isRegistered ? (
               <><Check className="w-5 h-5" /> Inscrito</>
