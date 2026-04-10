@@ -29,7 +29,7 @@
 
 body {
   font-family: var(--font-sans);
-  background: linear-gradient(180deg, #FF6B00 0%, #C2410C 50%, #7F1D1D 100%);
+  background: linear-gradient(180deg, #27272A 0%, #1C1C21 50%, #131316 100%);
   background-attachment: fixed;
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
