@@ -6,6 +6,7 @@ import { useEventRegistration, useEventParticipants } from '@/hooks/useRegistrat
 import { TopBar } from '@/components/layout/TopBar'
 import { Avatar } from '@/components/ui/avatar'
 import { PageSpinner } from '@/components/ui/spinner'
+import { useConfirm } from '@/components/ui/confirm-dialog'
 import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency, getWhatsAppShareUrl, getGoogleMapsUrl, getWazeUrl } from '@/lib/utils'
 import {
   CalendarDays, Clock, MapPin, DollarSign, Users,
@@ -20,6 +21,7 @@ export default function EventDetailPage() {
   const deleteEvent = useDeleteEvent()
   const navigate = useNavigate()
   const { session } = useAuthStore()
+  const confirm = useConfirm()
   const [showFullImage, setShowFullImage] = useState(false)
 
   if (isLoading || !event) return <PageSpinner />
@@ -81,7 +83,7 @@ export default function EventDetailPage() {
             <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
               <Share2 className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-[11px] font-medium">WhatsApp</span>
+            <span className="text-xs font-medium">WhatsApp</span>
           </button>
           <button
             onClick={() => window.open(getGoogleMapsUrl(event.event_address), '_blank')}
@@ -90,7 +92,7 @@ export default function EventDetailPage() {
             <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
               <Map className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-[11px] font-medium">Google Maps</span>
+            <span className="text-xs font-medium">Google Maps</span>
           </button>
           <button
             onClick={() => window.open(getWazeUrl(event.event_address), '_blank')}
@@ -99,7 +101,7 @@ export default function EventDetailPage() {
             <div className="w-12 h-12 rounded-full bg-black border border-primary/40 flex items-center justify-center">
               <Navigation className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-[11px] font-medium">Waze</span>
+            <span className="text-xs font-medium">Waze</span>
           </button>
         </div>
       </div>
@@ -207,8 +209,14 @@ export default function EventDetailPage() {
         {/* Deletar evento (apenas dono) */}
         {session?.user?.id === event.created_by && (
           <button
-            onClick={() => {
-              if (confirm('Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.')) {
+            onClick={async () => {
+              const ok = await confirm({
+                title: 'Excluir evento?',
+                description: 'Esta ação não pode ser desfeita. Todos os inscritos perderão acesso.',
+                confirmText: 'Excluir',
+                variant: 'danger',
+              })
+              if (ok) {
                 deleteEvent.mutate(id!, { onSuccess: () => navigate('/') })
               }
             }}

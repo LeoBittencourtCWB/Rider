@@ -74,6 +74,14 @@ export function useEventRegistration(eventId: string) {
     enabled: !!session?.user && !!eventId,
   })
 
+  function invalidateRegistrations() {
+    queryClient.invalidateQueries({ queryKey: ['registration', eventId] })
+    queryClient.invalidateQueries({ queryKey: ['events'] })
+    queryClient.invalidateQueries({ queryKey: ['event', eventId] })
+    queryClient.invalidateQueries({ queryKey: ['my-agenda'] })
+    queryClient.invalidateQueries({ queryKey: ['participants', eventId] })
+  }
+
   const join = useMutation({
     mutationFn: async () => {
       if (!session?.user) throw new Error('Não autenticado')
@@ -83,11 +91,7 @@ export function useEventRegistration(eventId: string) {
       if (error) throw error
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['registration', eventId] })
-      queryClient.invalidateQueries({ queryKey: ['events'] })
-      queryClient.invalidateQueries({ queryKey: ['event', eventId] })
-      queryClient.invalidateQueries({ queryKey: ['my-agenda'] })
-      queryClient.invalidateQueries({ queryKey: ['participants', eventId] })
+      invalidateRegistrations()
       toast.success('Inscrição confirmada!')
     },
     onError: (err: Error) => toast.error(err.message),
@@ -104,12 +108,34 @@ export function useEventRegistration(eventId: string) {
       if (error) throw error
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['registration', eventId] })
-      queryClient.invalidateQueries({ queryKey: ['events'] })
-      queryClient.invalidateQueries({ queryKey: ['event', eventId] })
-      queryClient.invalidateQueries({ queryKey: ['my-agenda'] })
-      queryClient.invalidateQueries({ queryKey: ['participants', eventId] })
-      toast.success('Inscrição cancelada.')
+      invalidateRegistrations()
+      toast(
+        (t) => (
+          <span className="flex items-center gap-3">
+            <span>Inscrição cancelada.</span>
+            <button
+              type="button"
+              onClick={async () => {
+                toast.dismiss(t.id)
+                if (!session?.user) return
+                const { error } = await supabase
+                  .from('event_registrations')
+                  .insert({ event_id: eventId, user_id: session.user.id })
+                if (error) {
+                  toast.error('Não foi possível desfazer.')
+                  return
+                }
+                invalidateRegistrations()
+                toast.success('Inscrição restaurada.')
+              }}
+              className="text-primary font-semibold hover:text-primary-hover"
+            >
+              Desfazer
+            </button>
+          </span>
+        ),
+        { duration: 5000 }
+      )
     },
     onError: (err: Error) => toast.error(err.message),
   })

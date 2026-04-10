@@ -100,7 +100,7 @@ export function BottomNav() {
                   <span className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
                 )}
                 <item.icon className={cn('w-6 h-6', isActive && 'drop-shadow-[0_0_6px_rgba(255,107,0,0.5)]')} aria-hidden="true" />
-                <span className="text-[11px] font-medium leading-none">{item.label}</span>
+                <span className="text-xs font-medium leading-none">{item.label}</span>
               </button>
             )
           })}

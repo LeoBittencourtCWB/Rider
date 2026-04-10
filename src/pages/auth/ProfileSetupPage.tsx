@@ -27,6 +27,7 @@ export default function ProfileSetupPage() {
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
+    mode: 'onBlur',
     defaultValues: {
       email: storeSession?.user?.email || '',
     },
@@ -65,6 +66,7 @@ export default function ProfileSetupPage() {
             id="user_name"
             label="Nome *"
             placeholder="Seu nome"
+            autoComplete="name"
             error={errors.user_name?.message}
             {...register('user_name')}
           />
@@ -73,6 +75,8 @@ export default function ProfileSetupPage() {
             label="Email *"
             type="email"
             placeholder="seu@email.com"
+            autoComplete="email"
+            inputMode="email"
             error={errors.email?.message}
             {...register('email')}
           />
@@ -81,6 +85,8 @@ export default function ProfileSetupPage() {
             label="WhatsApp *"
             type="tel"
             placeholder="11999999999"
+            autoComplete="tel"
+            inputMode="tel"
             error={errors.whatsapp?.message}
             {...register('whatsapp')}
           />

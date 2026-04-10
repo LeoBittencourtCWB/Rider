@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { Bike, LogIn, UserPlus } from 'lucide-react'
+import { Bike, LogIn, UserPlus, Eye, EyeOff } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import toast from 'react-hot-toast'
 
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
   if (session && profileComplete) {
@@ -122,26 +123,54 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             label="Email"
+            autoComplete="email"
+            inputMode="email"
           />
 
-          <Input
-            id="password"
-            type="password"
-            placeholder={mode === 'signup' ? 'Mínimo 6 caracteres' : 'Sua senha'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            label="Senha"
-          />
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder={mode === 'signup' ? 'Mínimo 6 caracteres' : 'Sua senha'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Senha"
+              autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+              className="pr-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+              aria-pressed={showPassword}
+              className="absolute right-1 bottom-0 w-11 h-11 flex items-center justify-center text-white/60 hover:text-primary transition-colors"
+            >
+              {showPassword ? <EyeOff className="w-5 h-5" aria-hidden="true" /> : <Eye className="w-5 h-5" aria-hidden="true" />}
+            </button>
+          </div>
 
           {mode === 'signup' && (
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirme sua senha"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              label="Confirmar Senha"
-            />
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Confirme sua senha"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                label="Confirmar Senha"
+                autoComplete="new-password"
+                className="pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                aria-pressed={showPassword}
+                className="absolute right-1 bottom-0 w-11 h-11 flex items-center justify-center text-white/60 hover:text-primary transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" aria-hidden="true" /> : <Eye className="w-5 h-5" aria-hidden="true" />}
+              </button>
+            </div>
           )}
 
           <Button

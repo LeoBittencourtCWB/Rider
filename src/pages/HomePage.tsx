@@ -48,7 +48,7 @@ function EventCard({ event }: { event: EventWithCount }) {
           <h3 className="font-semibold text-white leading-snug text-sm truncate">
             {event.event_name}
           </h3>
-          <p className="text-[11px] text-white/60">
+          <p className="text-xs text-white/60">
             por {event.creator_name}
           </p>
           <div className="flex items-center gap-1 pt-1">
@@ -59,7 +59,7 @@ function EventCard({ event }: { event: EventWithCount }) {
             <Clock className="w-3 h-3 text-primary shrink-0" />
             <span>{formatTime(event.event_start_time)}</span>
           </div>
-          <div className="flex items-center gap-1 text-[11px] text-white/70">
+          <div className="flex items-center gap-1 text-xs text-white/70">
             <MapPin className="w-3 h-3 text-primary shrink-0" />
             <span className="truncate">{event.event_address}</span>
           </div>
@@ -103,6 +103,7 @@ export default function HomePage() {
 
   return (
     <>
+      <h1 className="sr-only">Rider — Eventos de Motociclistas</h1>
       {/* TopBar personalizado */}
       <header className="sticky top-0 bg-black/90 backdrop-blur-xl border-b border-primary/20 z-40 pt-[env(safe-area-inset-top)]">
         <div className="max-w-lg mx-auto flex items-center h-16 px-4 gap-2">

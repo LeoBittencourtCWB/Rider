@@ -62,14 +62,14 @@ export default function MyAgendaPage() {
                         {formatEventDate(reg.events.event_date)}
                       </span>
                     </div>
-                    <p className="text-[11px] text-white/60 pl-5">
+                    <p className="text-xs text-white/60 pl-5">
                       ({formatDayOfWeek(reg.events.event_date)})
                     </p>
                     <div className="flex items-center gap-1 text-xs text-white/80">
                       <Clock className="w-3 h-3 text-primary shrink-0" />
                       <span>{formatTime(reg.events.event_start_time)}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-[11px] text-white/70">
+                    <div className="flex items-center gap-1 text-xs text-white/70">
                       <MapPin className="w-3 h-3 text-primary shrink-0" />
                       <span className="truncate">{reg.events.event_address}</span>
                     </div>

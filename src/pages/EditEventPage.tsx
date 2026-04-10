@@ -100,6 +100,7 @@ function EditForm({ event }: { event: EventWithCount }) {
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
+    mode: 'onBlur',
     defaultValues: {
       event_name: event.event_name,
       event_description: event.event_description || '',
@@ -162,7 +163,7 @@ function EditForm({ event }: { event: EventWithCount }) {
       <Input id="event_name" label="Nome do Evento *" error={errors.event_name?.message} {...register('event_name')} />
       <div>
         <Textarea id="event_description" label="Descrição" rows={4} {...register('event_description')} />
-        <p className="text-[10px] text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
+        <p className="text-xs text-white/60 mt-1">Use **texto** para <strong>negrito</strong>, *texto* para <em>itálico</em>. Enter para nova linha.</p>
       </div>
       <Input id="event_address" label="Endereço *" error={errors.event_address?.message} {...register('event_address')} />
       <Input id="event_date" label="Data de Início *" type="date" error={errors.event_date?.message} {...register('event_date')} />
