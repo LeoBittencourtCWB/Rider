@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Avatar } from '@/components/ui/avatar'
 import { EventCardSkeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/empty-state'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { formatEventDate, formatTime, formatCurrency } from '@/lib/utils'
 import { Search, MapPin, Users, CalendarDays, ThumbsUp, Check, Clock, ImageOff, Bike } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
@@ -180,9 +181,12 @@ export default function HomePage() {
             description={search ? 'Tente outra busca' : 'Nenhum evento ativo no momento'}
           />
         ) : (
-          events.map((event) => (
-            <EventCard key={event.event_id} event={event} />
-          ))
+          <>
+            {events.map((event) => (
+              <EventCard key={event.event_id} event={event} />
+            ))}
+            <RiderLogo />
+          </>
         )}
       </div>
     </>

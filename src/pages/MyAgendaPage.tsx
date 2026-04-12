@@ -3,6 +3,7 @@ import { useMyAgenda } from '@/hooks/useRegistrations'
 import { TopBar } from '@/components/layout/TopBar'
 import { PageSpinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency } from '@/lib/utils'
 import { CalendarDays, MapPin, ImageOff, Clock } from 'lucide-react'
 
@@ -33,7 +34,8 @@ export default function MyAgendaPage() {
             description="Inscreva-se em eventos na tela inicial"
           />
         ) : (
-          sorted.map((reg) => {
+          <>
+          {sorted.map((reg) => {
             const isFree = reg.events.event_cost === 0
             return (
               <div
@@ -93,7 +95,9 @@ export default function MyAgendaPage() {
                 </div>
               </div>
             )
-          })
+          })}
+          <RiderLogo />
+          </>
         )}
       </div>
     </>

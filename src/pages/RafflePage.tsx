@@ -6,12 +6,12 @@ import {
 } from '@/hooks/useRaffle'
 import { TopBar } from '@/components/layout/TopBar'
 import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { PageSpinner, Spinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
-import { formatEventDate, formatTime } from '@/lib/utils'
+import { formatEventDate, formatTime, isEventPast } from '@/lib/utils'
 import { Gift, Plus, Trash2, Trophy, PartyPopper } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
 
@@ -174,19 +174,25 @@ export default function RafflePage() {
         ) : (
           <>
             <p className="text-sm text-white/80">Selecione o evento para o sorteio:</p>
-            {events.map((event) => (
-              <button
-                key={event.event_id}
-                type="button"
-                onClick={() => setSelected(event)}
-                className="w-full text-left bg-black rounded-2xl border border-primary/30 p-4 transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
-              >
-                <h3 className="font-semibold text-white">{event.event_name}</h3>
-                <p className="text-sm text-white/80">
-                  {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)} | {event.participant_count} participante(s)
-                </p>
-              </button>
-            ))}
+            {events.map((event) => {
+              const past = isEventPast(event.event_date!, event.event_end_time || event.event_start_time!)
+              return (
+                <button
+                  key={event.event_id}
+                  type="button"
+                  onClick={() => setSelected(event)}
+                  className="w-full text-left bg-black rounded-2xl border border-primary/30 p-4 transition-all duration-200 hover:border-primary/50 hover:shadow-lg hover:shadow-black/40 active:scale-[0.98]"
+                >
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-white flex-1 truncate">{event.event_name}</h3>
+                    {past && <Badge variant="secondary">Evento Realizado</Badge>}
+                  </div>
+                  <p className="text-sm text-white/80">
+                    {formatEventDate(event.event_date)} - {formatTime(event.event_start_time)} | {event.participant_count} participante(s)
+                  </p>
+                </button>
+              )
+            })}
           </>
         )}
       </div>
