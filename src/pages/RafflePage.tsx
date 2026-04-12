@@ -62,6 +62,12 @@ function RaffleManager({ event }: { event: EventWithCount }) {
     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
+  function shareAllWinners(results: { product_name: string; winner_name: string }[]) {
+    const lines = results.map((r) => `🏆 ${r.product_name} → ${r.winner_name}`)
+    const msg = `🎉 *Resultado do Sorteio — ${event.event_name}!*\n\n${lines.join('\n')}\n\n_Parabéns aos ganhadores!_ 🎊\n\n👉 https://rider-virid.vercel.app`
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
   const hasWinners = winners && winners.length > 0
   const hasUndrawnProducts = products?.some(
     (p) => !winners?.find((w) => w.raffle_products.product_id === p.product_id)
@@ -155,6 +161,13 @@ function RaffleManager({ event }: { event: EventWithCount }) {
               </div>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => shareAllWinners(drawResults.map((r) => ({ product_name: r.product_name, winner_name: r.winner_name })))}
+            className="w-full mt-3 flex items-center justify-center gap-2 bg-success/15 text-success hover:bg-success/25 border border-success/20 rounded-full px-4 py-3 font-semibold text-sm transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" /> Compartilhar Resultado no WhatsApp
+          </button>
         </Card>
       )}
 
@@ -180,6 +193,13 @@ function RaffleManager({ event }: { event: EventWithCount }) {
               </div>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => shareAllWinners(winners!.map((w) => ({ product_name: w.raffle_products.product_name, winner_name: w.profiles.user_name })))}
+            className="w-full mt-3 flex items-center justify-center gap-2 bg-success/15 text-success hover:bg-success/25 border border-success/20 rounded-full px-4 py-3 font-semibold text-sm transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" /> Compartilhar Resultado no WhatsApp
+          </button>
         </Card>
       )}
     </div>
