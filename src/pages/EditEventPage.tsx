@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Avatar } from '@/components/ui/avatar'
 import { Spinner, PageSpinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { formatEventDate, formatTime, isEventPast } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Pencil, ImagePlus, Users, ChevronDown, ChevronUp } from 'lucide-react'
@@ -181,6 +182,8 @@ function EditForm({ event }: { event: EventWithCount }) {
       <Button type="submit" className="w-full" size="lg" disabled={updateEvent.isPending || uploadImage.isPending}>
         {updateEvent.isPending ? <Spinner size="sm" /> : 'Salvar Alterações'}
       </Button>
+
+      <RiderLogo />
     </form>
   )
 }
@@ -234,6 +237,7 @@ export default function EditEventPage() {
             })}
           </>
         )}
+        <RiderLogo />
       </div>
     </>
   )

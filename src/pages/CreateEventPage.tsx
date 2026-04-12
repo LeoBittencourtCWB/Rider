@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Spinner } from '@/components/ui/spinner'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { ImagePlus } from 'lucide-react'
 
 const schema = z.object({
@@ -110,6 +111,8 @@ export default function CreateEventPage() {
           {createEvent.isPending ? <Spinner size="sm" /> : 'Criar Evento'}
         </Button>
       </form>
+
+      <RiderLogo />
     </>
   )
 }

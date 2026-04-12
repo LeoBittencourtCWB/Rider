@@ -6,6 +6,7 @@ import { useEventRegistration, useEventParticipants } from '@/hooks/useRegistrat
 import { TopBar } from '@/components/layout/TopBar'
 import { Avatar } from '@/components/ui/avatar'
 import { PageSpinner } from '@/components/ui/spinner'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { useConfirm } from '@/components/ui/confirm-dialog'
 import { formatEventDate, formatDayOfWeek, formatTime, formatCurrency, getWhatsAppShareUrl, getGoogleMapsUrl, getWazeUrl } from '@/lib/utils'
 import {
@@ -229,6 +230,8 @@ export default function EventDetailPage() {
             <Trash2 className="w-4 h-4" /> Excluir Evento
           </button>
         )}
+
+        <RiderLogo />
       </div>
     </>
   )

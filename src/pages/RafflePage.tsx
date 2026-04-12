@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PageSpinner, Spinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
+import { RiderLogo } from '@/components/ui/rider-logo'
 import { formatEventDate, formatTime, isEventPast } from '@/lib/utils'
 import { Gift, Plus, Trash2, Trophy, PartyPopper } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
@@ -195,6 +196,7 @@ export default function RafflePage() {
             })}
           </>
         )}
+        <RiderLogo />
       </div>
     </>
   )
