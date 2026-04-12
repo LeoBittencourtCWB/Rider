@@ -58,7 +58,7 @@ function RaffleManager({ event }: { event: EventWithCount }) {
   function openWhatsApp(phone: string, productName: string) {
     const digits = phone.replace(/\D/g, '')
     const num = digits.startsWith('55') ? digits : `55${digits}`
-    const msg = `🎉 Parabéns! Você ganhou *${productName}* no sorteio do evento *${event.event_name}*!\n\nAcesse o app Rider para mais detalhes:\n👉 https://rider-virid.vercel.app`
+    const msg = `🎉 Parabéns! 🎉\n\nVocê ganhou *${productName}* no sorteio do evento *${event.event_name}*!\n\nEntre em contato com o organizador do evento ou acesse o app Rider para mais detalhes:\n👉 https://rider-virid.vercel.app`
     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
