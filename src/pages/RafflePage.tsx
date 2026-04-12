@@ -4,6 +4,7 @@ import {
   useRaffleProducts, useAddRaffleProduct, useRemoveRaffleProduct,
   useDrawRaffle, useRaffleWinners,
 } from '@/hooks/useRaffle'
+import { supabase } from '@/lib/supabase'
 import { TopBar } from '@/components/layout/TopBar'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -13,7 +14,7 @@ import { PageSpinner, Spinner } from '@/components/ui/spinner'
 import { EmptyState } from '@/components/ui/empty-state'
 import { RiderLogo } from '@/components/ui/rider-logo'
 import { formatEventDate, formatTime, isEventPast } from '@/lib/utils'
-import { Gift, Plus, Trash2, Trophy, PartyPopper } from 'lucide-react'
+import { Gift, Plus, Trash2, Trophy, PartyPopper, MessageCircle } from 'lucide-react'
 import type { EventWithCount } from '@/types/database'
 
 interface DrawResult {
@@ -21,6 +22,7 @@ interface DrawResult {
   product_name: string
   winner_user_id: string
   winner_name: string
+  winner_whatsapp?: string
 }
 
 function RaffleManager({ event }: { event: EventWithCount }) {
@@ -40,7 +42,24 @@ function RaffleManager({ event }: { event: EventWithCount }) {
 
   async function handleDraw() {
     const results = await drawRaffle.mutateAsync(event.event_id)
-    setDrawResults(results)
+    // Buscar WhatsApp dos ganhadores
+    const userIds = results.map((r) => r.winner_user_id)
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('user_id, whatsapp')
+      .in('user_id', userIds)
+    const enriched = results.map((r) => ({
+      ...r,
+      winner_whatsapp: profiles?.find((p) => p.user_id === r.winner_user_id)?.whatsapp,
+    }))
+    setDrawResults(enriched)
+  }
+
+  function openWhatsApp(phone: string, productName: string) {
+    const digits = phone.replace(/\D/g, '')
+    const num = digits.startsWith('55') ? digits : `55${digits}`
+    const msg = `🎉 Parabéns! Você ganhou *${productName}* no sorteio do evento *${event.event_name}*!\n\nAcesse o app Rider para mais detalhes:\n👉 https://rider-virid.vercel.app`
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
   const hasWinners = winners && winners.length > 0
@@ -117,12 +136,22 @@ function RaffleManager({ event }: { event: EventWithCount }) {
           <div className="space-y-2">
             {drawResults.map((result) => (
               <div key={result.product_id} className="flex items-center gap-2 bg-black/50 border border-primary/20 rounded-xl px-3 py-2">
-                <Gift className="w-4 h-4 text-primary" />
-                <span className="text-sm flex-1">{result.product_name}</span>
+                <Gift className="w-4 h-4 text-primary shrink-0" />
+                <span className="text-sm flex-1 min-w-0 truncate">{result.product_name}</span>
                 <Badge variant="success">
                   <Trophy className="w-3 h-3" />
                   {result.winner_name}
                 </Badge>
+                {result.winner_whatsapp && (
+                  <button
+                    type="button"
+                    onClick={() => openWhatsApp(result.winner_whatsapp!, result.product_name)}
+                    aria-label={`Avisar ${result.winner_name} pelo WhatsApp`}
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-success/15 text-success hover:bg-success/25 transition-colors shrink-0"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -135,9 +164,19 @@ function RaffleManager({ event }: { event: EventWithCount }) {
           <div className="space-y-2">
             {winners?.map((w) => (
               <div key={w.winner_id} className="flex items-center gap-2 bg-black/50 border border-primary/20 rounded-xl px-3 py-2">
-                <Trophy className="w-4 h-4 text-success" />
-                <span className="text-sm flex-1">{w.raffle_products.product_name}</span>
-                <span className="text-sm text-success font-medium">{w.profiles.user_name}</span>
+                <Trophy className="w-4 h-4 text-success shrink-0" />
+                <span className="text-sm flex-1 min-w-0 truncate">{w.raffle_products.product_name}</span>
+                <span className="text-sm text-success font-medium shrink-0">{w.profiles.user_name}</span>
+                {w.profiles.whatsapp && (
+                  <button
+                    type="button"
+                    onClick={() => openWhatsApp(w.profiles.whatsapp, w.raffle_products.product_name)}
+                    aria-label={`Avisar ${w.profiles.user_name} pelo WhatsApp`}
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-success/15 text-success hover:bg-success/25 transition-colors shrink-0"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             ))}
           </div>

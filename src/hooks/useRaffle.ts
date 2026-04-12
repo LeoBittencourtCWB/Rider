@@ -84,7 +84,7 @@ export interface RaffleWinnerRow {
   winner_id: string
   drawn_at: string
   raffle_products: { product_id: string; product_name: string }
-  profiles: { user_id: string; user_name: string; user_picture: string | null }
+  profiles: { user_id: string; user_name: string; user_picture: string | null; whatsapp: string }
 }
 
 export function useRaffleWinners(eventId: string) {
@@ -103,7 +103,8 @@ export function useRaffleWinners(eventId: string) {
           profiles:user_id (
             user_id,
             user_name,
-            user_picture
+            user_picture,
+            whatsapp
           )
         `)
         .eq('event_id', eventId)
